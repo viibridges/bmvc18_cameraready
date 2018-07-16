@@ -23,29 +23,39 @@
 \def\Eg{\emph{E.g}\bmvaOneDot}
 \def\etal{\emph{et al}\bmvaOneDot}
 
-%% Enter your paper number here for the review copy
+% Enter your paper number here for the review copy
 %\bmvcreviewcopy{586}
 
 \title{Learning Geo-Temporal Image Features}
-%\author{Menghua Zhai}
 
-%% Enter the paper's authors in order
-%% \addauthor{Name}{email/homepage}{INSTITUTION_CODE}
-%\addauthor{Menghua Zhai}{ted@cs.uky.edu}{1}
-%\addauthor{Tawfiq Salem}{salem@cs.uky.edu}{1}
-%\addauthor{Connor Greenwell}{connor@cs.uky.edu}{1}
-%\addauthor{Scott Workman}{scott@cs.uky.edu}{1}
-%\addauthor{Robert Pless}{pless@gwu.edu}{2}
-\addauthor{Nathan Jacobs}{jacobs@cs.uky.edu}{1}
-
-% Enter the institutions
-% \addinstitution{Name\\Address}
-\addinstitution{
- University of Kentucky
+\newcommand{\authoritem}[3]{
+  \begin{minipage}{1.5in}
+    \centering
+    #1$^#3$ \\
+    {\tt\small #2}
+  \end{minipage}
 }
-%\addinstitution{
- %George Washington University
-%}
+\newcommand{\institutionitem}[2]{
+  \begin{minipage}{1.8in}
+    $^#2$#1
+  \end{minipage}
+}
+
+\author{
+  \begin{minipage}{\linewidth}
+    \centering
+    \authoritem{Menghua Zhai}{ted@cs.uky.edu}{1}
+    \authoritem{Tawfiq Salem}{salem@cs.uky.edu}{1}
+    %\authoritem{Connor Greenwell}{connor@cs.uky.edu}{1}
+    %\authoritem{Scott Workman}{scott@cs.uky.edu}{1}
+    %\authoritem{Robert Pless}{pless@gwu.edu}{2}
+    %\authoritem{Nathan Jacobs}{jacobs@cs.uky.edu}{1}
+    \\[.2cm]
+    \hspace{-14pt}
+    \institutionitem{University of Kentucky}{1}
+    \institutionitem{George Washington University}{2}
+  \end{minipage}
+}
 
 \runninghead{Zhai}{Learning Geo-Temporal Image Features}
 

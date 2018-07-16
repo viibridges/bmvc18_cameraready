@@ -485,8 +485,9 @@
   \bmv@strut\\[-4pt]% vglue produces inconsistent results
   \begin{raggedright}%^
     {\bmv@titlesize\bfseries\sffamily\textcolor{bmv@sectioncolor} \@title\par}%^
-    \vskip 1.5em%^
-    {\bmv@RenderAuthorsAndInstitutions}%^
+    \vskip 1.5em
+    %{\bmv@RenderAuthorsAndInstitutions}
+    \@author
   \end{raggedright}%^
   \vskip\baselineskip
   \hrule
