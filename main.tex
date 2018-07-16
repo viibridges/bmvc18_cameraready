@@ -52,7 +52,7 @@
   \end{minipage}
 }
 
-\runninghead{Zhai}{Learning Geo-Temporal Image Features}
+\runninghead{MZ,TS,CG,SW,RP,NJ}{Learning Geo-Temporal Image Features}
 
 \begin{document}
 
@@ -116,12 +116,6 @@ for classification, detection, and segmentation tasks. We extend this
 line of work by using time and location context to learn useful
 features from a large corpus of imagery.
 
-%Time annotation from both data resources are recorded automatically by
-%the devices. The Flickr images are mostly captured by cell phones
-%therefore they are tagged with GPS locations.  The only targets we
-%used for training that require manual annotation are the geographic
-%location of the webcams, which are registered and uploaded by users.
-
 Our work makes the following visual assumptions about the world.
 First, that photographs provide a direct source of context regarding
 the conditions under which they were captured. For example, the time
@@ -147,7 +141,8 @@ each representation, or combination of representations, is used to
 predict held out information. For example, the image representation
 and location representation (or the combination of both) are used to
 learn to predict when an image was captured. In total, three representations 
-are learned using four classification tasks.  We optimize all representations and tasks simultaneously, in an end-to-end fashion.
+are learned using four classification tasks.  We optimize all
+representations and tasks simultaneously, in an end-to-end fashion.
 
 The main contributions of this work are: 1) a novel approach for
 learning geo-temporal image features from a large corpus of imagery
@@ -325,16 +320,6 @@ We evaluate the context networks and estimator networks on various
 datasets, visualize specific features in the image context networks,
 and show that the image context features have strong correlations with
 transient image attributes.
-
-%We start by analyzing the correspondences of the learned mid-level
-%features with the image appearance changes, then we train the our
-%network on various datasets.  We offer visualizations of the meanings
-%of specific features in the image context networks, and show that the
-%image context features have strong correlations with transient image
-%conditions. We further show our method is a good pre-training strategy
-%for learning the transient attributes.  As applications, we show that
-%our model can be used for geolocalization and time estimation.
-
 
 \subsection{Training and Evaluation Datasets}
 
@@ -584,8 +569,6 @@ uncertainty of the location prediction diminishes.
 \end{figure}
 
 \subsection{Application: Time Estimation}
-
-% NBJ MAYBE this is a little wordy at the start
 
 Using the time estimator and location-conditioned time estimator, our
 network is able to estimate the capture time of a query image. These
