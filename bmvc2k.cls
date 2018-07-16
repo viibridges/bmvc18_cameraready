@@ -485,11 +485,12 @@
   \bmv@strut\\[-4pt]% vglue produces inconsistent results
   \begin{raggedright}%^
     {\bmv@titlesize\bfseries\sffamily\textcolor{bmv@sectioncolor} \@title\par}%^
-    \vskip 1.5em
+    \vskip 0.5em
     %{\bmv@RenderAuthorsAndInstitutions}
     \@author
   \end{raggedright}%^
-  \vskip\baselineskip
+  %\vskip\baselineskip
+  \vskip 0.5em
   \hrule
   \vskip\baselineskip
   \def\BMVA@blfootnote{\xdef\@thefnmark{}\@footnotetext}%^
