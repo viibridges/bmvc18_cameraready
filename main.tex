@@ -79,7 +79,7 @@
 Outdoor images often contain sufficient visual information to
 understand geographic information about the scene, such as where the
 image was captured. Developing effective algorithms for this task has
-received significant attention for many years~\cite{im2gps,planet}.
+received significant attention for many years~\cite{im2gps,weyand2016planet}.
 The appearance of an outdoor scene can also change rapidly. These
 changes are often due to fleeting, or transient, attributes such as
 lighting and weather conditions, that dramatically affect the visual
@@ -89,7 +89,7 @@ Several methods have been proposed for automatically understanding and
 extracting these subtle characteristics from
 imagery~\cite{patterson2012sun,lu2014two,laffont2014transient,baltenberger16transient}.
 Estimating these types of transient attributes has importance in a
-number of fields, including: environmental
+number of applications, including: environmental
 monitoring~\cite{wang2013observing,fedorov2014snow}, as a
 pre-processing step for
 calibration~\cite{jacobs13cloudcalibration,workman2014rainbow}, and
@@ -108,7 +108,7 @@ to represent useful semantic properties of the visual world.'' Such
 learning tasks are often referred to as {\em pretext tasks}; they
 serve as an intermediary target for learning the intended
 representation.  For example, Doersch et
-al~\cite{doersch2015unsupervised} show how spatial context can be used
+al.~\cite{doersch2015unsupervised} show how spatial context can be used
 as a supervisory signal in order to learn a visual representation for
 object discovery. Similarly, Pathak et al.~\cite{pathak2016context}
 use context-based pixel prediction for pre-training a representation
@@ -122,10 +122,10 @@ the conditions under which they were captured. For example, the time
 of day that an image is captured is directly related to the brightness
 of the image (i.e., light to dark), season can indicate the expected
 weather conditions or how people are dressed, and location can provide
-evidence about anticipated styles such as architecture. Second, these
+evidence about anticipated styles, such as architecture. Second, these
 context signals are hard to extract from an image, are potentially
-noisy (e.g., snow in April), and can be indicated by multiple sources
-(snow on the ground, people wearing heavy coats). These assumptions
+noisy (e.g., snow in early Summer), and can be indicated by multiple sources
+(e.g., snow on the ground, people wearing heavy coats). These assumptions
 motivate our method which integrates image appearance, time, and
 location, the latter of which are typically recorded automatically by
 the imaging device.
@@ -152,7 +152,7 @@ where our features outperform those from a network pre-trained using
 the strongly supervised ImageNet dataset~\cite{ILSVRC15}; 3) an
 evaluation of the accuracy of our learned estimators, highlighting the
 value of additional context; and 4) a novel location estimation method
-that uses the task of time estimation to localize a static camera. 
+that uses the task of time estimation to localize a static webcam. 
 
 \section{Related Work}
 
@@ -164,21 +164,20 @@ images~\cite{lin2015learning,workman2015geocnn,workman2015localize}
 with known location.  Other methods have been proposed which take
 advantage of photometric and geometric properties such as sun
 position~\cite{lalonde2010sun,workman2014rainbow}, and many other
-cues. More recently, Weyand et al.~\cite{planet} proposed to directly
+cues. More recently, Weyand et al.~\cite{weyand2016planet} proposed to directly
 predict the geographic location of a single image using a deep
 convolutional neural network by classifying the query image into a set
-of spatial bins. This style approach is a special case of our proposed
-network.
+of spatial bins. For our localization task, we adopt this classification approach and extend it to include temporal context.
 
 Other work has explored how to estimate the time that an image was
 captured. Salem et al.~\cite{salem2016dating} demonstrate that human
 appearance, including clothing and hairstyle, is a useful cue for
-dating images. Matzen and Snavely predict timestamps for photos by
+dating images. Matzen and Snavely~\cite{matzen2014scene} predict timestamps for photos by
 matching against a time-varying reconstruction of a scene.  Volokitin
 et al.~\cite{eth_biwi_01292} use representations extracted from CNNs
-to estimate ambient temperature and time of year for outdoor images.
-In our work we explore how location and time estimation can be used
-as tasks for learning geo-temporal features. 
+to estimate ambient temperature and time of year for outdoor images. As with localization, we adopt a classification approach to estimating when an image was captured and show how these estimates improve when the image location is known.
+
+%We explore how location and time estimation can be used as tasks for learning geo-temporal features. 
 
 Attribute-based representations have become popular in outdoor scene
 understanding to help describe how the appearance of a scene changes
@@ -189,7 +188,7 @@ image. Using this dataset, Baltenberger et
 al.~\cite{baltenberger16transient} introduce methods for estimating
 the presence of transient attributes using convolutional neural
 networks. Jacobs et al.~\cite{jacobs07amos} demonstrate
-that principle component analysis, when applied to webcam imagery,
+that principal component analysis, when applied to webcam imagery,
 results in a decomposition that is closely related to natural changes
 in the scene, including the time of day, local weather conditions, and
 human activity. Similarly, a body of work has sought understand local
@@ -198,24 +197,25 @@ have shown that these types of transient attributes can be useful for
 image and camera localization
 tasks~\cite{jacobs07geolocate,baltenberger16transient}.
 
-Recent work has explored the use of self-supervision (sometimes
-referred to as unsupervised learning or pretext tasks) for training
-deep neural networks that capture useful visual
+Recent work has explored the use of self-supervision, which are sometimes
+referred to as pretext tasks, for training
+deep neural networks to capture useful visual
 representations~\cite{doersch2015unsupervised,pathak2016context}. For
 example, Zhang et al.~\cite{zhang2016colorful} show how image
 colorization (synthesizing colors for a grayscale image) is a powerful
 pretext task for learning visual representations. Pathak et
 al.~\cite{pathak2017learning} exploit low-level motion-based grouping
-cues for unsupervised feature learning. These methods typically
+cues for unsupervised feature learning.
+%Li and Snavely~\cite{li2018learning} propose an approach for
+%learning intrinsic images by observing image sequences with varying
+%illumination over time.
+These methods typically
 exploit some known quantity of the data (e.g., pixel color values) to
 avoid expensive manual annotation. As a byproduct, a useful visual
 representation is learned. In our work, we consider two novel pretext
-tasks, time and location estimation. Our work is most similar to Li
-and Snavely~\cite{li2018learning}, who propose an approach for
-learning intrinsic images by observing image sequences with varying
-illumination over time. While their targets are reflectance and
-shading images of the scene, we focus on location and time.
+tasks, time and location estimation. 
 
+%While their targets are reflectance and shading images of the scene, we focus on location and time.
 
 \section{Estimating Geo-Temporal Image Features}
 \seclab{when-and-where}
@@ -246,8 +246,7 @@ distributions over time or location.
 
 We use three {\em context networks}: a temporal context network,
 $C_T(t)$; a location context network, $C_L(l)$; and an image context
-network, $C_I(I)$. The output of each context network is a 128
-dimensional feature with a sigmoid activation function. 
+network, $C_I(I)$. The output of each context network is a 128-dimensional feature with a sigmoid activation function. 
 %
 For the temporal context network, we parameterize the input timestamp
 using a one-hot encoding of month and hour of day, for a total of $12
@@ -258,14 +257,14 @@ activations.
 %
 For the location context network, we parameterize the geographic
 location, $l$, using standard 3D ECEF coordinates, which we normalize
-by the Earth's radius. Other than a different input, the location
+by the Earth's radius. Other than a different input and independent network weights, the location
 context network is identical to the temporal context network. 
 %
 For the image context network, we use the {\em InceptionV2}
 architecture~\cite{szegedy2016rethinking}, up to the last global
 average pooling layer, to extract features. We flatten the output
 feature map and append the same structure as the other context
-networks. 
+networks.
 
 \subsection{Estimator Networks}
 
@@ -276,23 +275,23 @@ estimator networks:
   \item {\em Location Estimator}, $P(l|(C_I(I))$, which predicts
     location using only image features;
 
-  \item {\em Time Estimator}, $P(t|C_I(I))$, which predicts time using
+  \item {\em Time Estimator}, $P(t|C_I(I))$, which predicts capture time using
     only image features; 
 
   \item {\em Time-conditioned Location Estimator}, $P(l|(C_I(I),C_T(t))$, which predicts
     location using features from the image and the known capture time;
 
   \item {\em Location-conditioned Time Estimator}, $P(t|C_I(I),C_L(l))$, which
-    predicts time features from the image and the known geographic
+    predicts capture time using features from the image and the known geographic
     location. 
 
 \end{compactitem}
 %
-Aside from different output size and activations, the estimator
+Aside from different output sizes, the estimator
 networks have the same structure as the context networks. We
-discretize the output space for location and time, representing the
-probability as a categorical distribution (softmax activation). For
-location, we use $37 \times 72$ equal-angle lat./long.\ bins.  For
+discretize the output space for location and time and represent the
+probability as a categorical distribution (i.e., using a {\em softmax} activation for each estimator). For
+location, we use $37 \times 72$ equal-angle ``latitude$\times$ longitude'' bins.  For
 time, we use $12 \times 24$ ``month $\times$ hour'' bins.
 
 \subsection{Implementation Details}
@@ -327,7 +326,7 @@ We use four main datasets to evaluate our approach.  The {\em AMOS}
 dataset refers to a subset of the AMOS
 database~\cite{jacobs07amos}, which is a collection of over a billion
 images captured from public outdoor webcams around the world.  For our
-experiments, we use a subset of images: only from cameras with
+experiments, we use a subset of images: only from webcams with
 high-accuracy geolocation and images captured between 2002 to 2017.
 This resulted in images from 12,193 webcams from which we held-out 231
 for testing. Each image has a timestamp recorded by the image
@@ -339,7 +338,7 @@ inaccurate timestamps.  We filter out indoor images using the {\em
 Places} network~\cite{zhou2017places}. This results in a training set
 of 892,662 images and a test set of 170,994 images.  The
 {\em Hybrid} dataset refers to a combination of the {\em AMOS} and
-{\em YFCC} training sets (equally sampling for each mini-batch).  The
+{\em YFCC} training sets (sampling equally for each mini-batch).  The
 {\em TA} dataset refers to the Transient Attributes
 Dataset~\cite{laffont2014transient}, which contains 8,571 images, each
 manually annotated with $40$ transient attributes, such as sunny and
@@ -353,14 +352,14 @@ representation learned by the image context network.
 To begin, we examined images that correspond with extremal
 activations.  For this experiment, we used 10,000 images randomly
 sampled from the {\em YFCC} dataset and 7,732 images covering the year of 2015 from 
-one camera (ID: 4308) in {\em AMOS} dataset. For each neuron of 
+one webcam (ID: 4308) in the {\em AMOS} dataset. For each neuron of 
 the image context representation, we selected the $10$ images that result in 
 the highest activation from the two different sets of images.  \figref{activation} 
 shows a montage of images for three neurons.  The neurons appear to capture
 semantically meaningful attributes, such as daylight, rainy, and winter. 
 %
 Similarly, we selected two neurons and visualized their signal over
-time using images from a static webcam. \figref{signal} shows how
+time for images from the webcam. \figref{signal} shows how
 scene appearance changes are related to the image context features.
 For the example shown, it appears that these neurons are related to
 daylight and fogginess. 
@@ -377,18 +376,18 @@ transient scene attributes.
   \begin{tabular}{lccc}
     \vspace {0.1cm}
     \raisebox{.3\height}{\rotatebox{90}{\em YFCC}} &
-    \includegraphics[width=.30\linewidth]{activation/yfcc/max_0.png} &
-    \includegraphics[width=.30\linewidth]{activation/yfcc/max_70.png}&
-    \includegraphics[width=.30\linewidth]{activation/yfcc/max_123.png}\\
+    \includegraphics[width=.31\linewidth]{activation/yfcc/max_0.png} &
+    \includegraphics[width=.31\linewidth]{activation/yfcc/max_70.png}&
+    \includegraphics[width=.31\linewidth]{activation/yfcc/max_123.png}\\
     \raisebox{-.05\height}{\rotatebox{90}{{\em AMOS:4308}}} &
-    \includegraphics[width=.30\linewidth]{activation/cam_4308/max_0.png} &
-    \includegraphics[width=.30\linewidth]{activation/cam_4308/max_70.png} &
-    \includegraphics[width=.30\linewidth]{activation/cam_4308/max_123.png}
+    \includegraphics[width=.31\linewidth]{activation/cam_4308/max_0.png} &
+    \includegraphics[width=.31\linewidth]{activation/cam_4308/max_70.png} &
+    \includegraphics[width=.31\linewidth]{activation/cam_4308/max_123.png}
     
   \end{tabular}
   
   \caption {Relating image appearance to the image context
-    representation by visualizing the images that have the highest
+    representation by visualizing the images that yield the highest
     activation at three different neurons.}
 
   \label{fig:activation}
@@ -428,20 +427,18 @@ $j$-th transient attribute.
 \figref{correlation} shows, for each
 transient attribute, the maximum absolute correlation score
 over all feature channels. We observe that our proposed method learns
-features that are more correlated to the transient attributes (
-$\bar{\rho} = 0.414$) than the ImageNet network ($\bar{\rho} =
-0.281$).
+features that are more correlated to the transient attributes ($\bar{\rho} = 0.414$) than the ImageNet network ($\bar{\rho} =
+0.281$) or the random features ($\bar{\rho}=0.038$).
 
 \begin{figure}
   \centering
   
   \includegraphics[width=\columnwidth]{correlation/hybrid} 
   
-  \caption{Cross-correlation scores between transient attributes and
-  three representations. For each attribute, we show the peak
-  correlation score. For a majority of attributes our proposed
-  representation is more highly correlated than the ImageNet
-  baseline.}
+  \caption{Maximum absolute cross-correlation scores between transient attributes and
+  three image feature representations. For a majority of attributes our proposed
+  representation has at least one feature that is more highly correlated than any in both 
+  baseline representations.}
   
   \figlab{correlation}
 \end{figure}
@@ -490,15 +487,14 @@ architecture enables. The straightforward approach is to use the
 location estimator (or the time-conditioned variant) to generate a
 probability distribution over a discrete set of location bins. An
 alternative approach is to optimize for a continuous location estimate
-by minimizing the loss of the location-conditioned time estimator
-network.
+by minimizing the loss of the location-conditioned time estimator.
 
-\noindent \textbf{Discrete Localization} Given an input image, $I$, we
+\paragraph{Discrete Localization} Given an input image, $I$, we
 evaluate the location estimator $P(l|C_I(I))$ and the time-conditioned
 location estimator $P(l|C_I(I),C_T(t))$, which requires a timestamp,
 $t$. We trained our model on each dataset and perform quantitative
 evaluation using the test images from {\em AMOS} and {\em YFCC},
-separately. We use the latitude/longitude center of the maximal bin as
+separately. We use the latitude/longitude center of the highest probability bin as
 our location estimate.  The results of this experiment are presented
 in \figref{image_localization}.  We observe that the time-conditioned
 location estimator is superior in both cases. We also conclude that
@@ -523,9 +519,8 @@ is competitive on both test sets.
   
   \label{fig:image_localization}
 \end{figure}
-%
 
-\noindent \textbf{Continuous Localization} In this formulation, we use
+\paragraph{Continuous Localization} In this formulation, we use
 the location-conditioned time estimator, $P(t|C_I(I),C_L(l))$, to
 optimize for a continuous location estimate.  Given the known image
 capture time $t^*$, the idea is that the true location should result
@@ -551,9 +546,10 @@ uncertainty of the location prediction diminishes.
     \raisebox{.5\height}{\rotatebox{90}{\em 1 images}} &
     \includegraphics[width=.45\linewidth]{webcam_localization/5992-loss_maps_hybrid-1} &
     \includegraphics[width=.45\linewidth]{webcam_localization/8260-loss_maps_hybrid-1} \\
-    %\raisebox{.5\height}{\rotatebox{90}{\em 5 images}} &
-    %\includegraphics[width=.45\linewidth]{webcam_localization/8260-loss_maps_amos-5} &
-    %\includegraphics[width=.45\linewidth]{webcam_localization/8260-loss_maps_hybrid-5} \\
+    \vspace{.15cm}
+    \raisebox{.5\height}{\rotatebox{90}{\em 5 images}} &
+    \includegraphics[width=.45\linewidth]{webcam_localization/5992-loss_maps_hybrid-5} &
+    \includegraphics[width=.45\linewidth]{webcam_localization/8260-loss_maps_hybrid-5} \\
     \vspace{.15cm}
     \raisebox{.5\height}{\rotatebox{90}{\em 20 images}} &
     \includegraphics[width=.45\linewidth]{webcam_localization/5992-loss_maps_hybrid-20} &
@@ -561,7 +557,7 @@ uncertainty of the location prediction diminishes.
     & {\em AMOS}: 5992 & {\em AMOS}: 8260 \\
   \end{tabular}
   
-  \caption{Visualizing the time estimation loss for two cameras and
+  \caption{Visualizing the time estimation loss for two webcams and
   varying number of images (darker is lower). The red arrows show the
   gradient and the green dot is the true location.}
   
@@ -575,7 +571,7 @@ network is able to estimate the capture time of a query image. These
 estimators output a distribution in discrete 2D time space. To
 evaluate our estimates, we compare the ground-truth capture time and
 the marginal probabilities of our predictions on the {\em YFCC}
-test set, and present the cumulative error plot in
+test set, and present the cumulative error plots in
 \figref{time_diff_err}. We observe that including location is not
 useful for  pinpointing the month. We suspect this is because most of
 our imagery is in the northern hemisphere, and changing the location
@@ -587,7 +583,6 @@ latitudes and longitudes. When performing a sweep over latitude, we
 fix the longitude value to be the ground truth (and vice versa). We
 found that the longitude of the image corresponds more with the hour
 prediction than the latitude, which matches expectations.
-
 
 \begin{figure}
   \centering
@@ -601,9 +596,7 @@ prediction than the latitude, which matches expectations.
     \caption{Hour Differences}
   \end{subfigure}
   
-  \caption{Quantitative evaluation of time estimation (month and hour)
-  performance shown as a cumulative error plot for the {\em YFCC}
-dataset. Both methods performance better than the random chance.}
+  \caption{Quantitative evaluation of marginal time estimation performance, shown as cumulative error plots for the {\em YFCC} dataset. Both methods perform better than the random chance and including the known location results in a significant reduction in error for the hour-estimation task.}
   
   \label{fig:time_diff_err}
 \end{figure}
@@ -625,12 +618,10 @@ dataset. Both methods performance better than the random chance.}
     \caption{Longitude Changes}
   \end{subfigure}
 
-  \caption{Marginal probability of GMT predictions by varying latitude
-  and longitude.}
+  \caption{When using our location-conditioned time estimator, the marginal probability over hours changes significantly as we vary the latitude and longitude provided to the location context network.}
   
   \label{fig:hour-change}
 \end{figure}
-
 
 \section{Conclusion}
 
@@ -641,9 +632,10 @@ for learning useful representations from images that takes advantage
 of this metadata. We found that for the task of transient attribute
 estimation, our method, despite being trained without manually
 obtained image-level annotations, learned image representations that
-outperform the representations learned using ImageNet, a rarely
-achieved feat on a frequently used benchmark for unsupervised
-representation learning tasks.
+outperform the representations learned using ImageNet. This is a rarely
+achieved feat in self-supervised representation learning against a frequently used baseline.  One important area for future work is in investigating alternative architectures for the context networks.  We did not conduct a thorough study in this regard and expect to see improvements in using newer image CNNs and higher capacity time and location networks.  In addition, we expect that richer time and location input representations will result in improved geo-temporal image features.
+
+%current implementations, which use The first is to explore different context networks. We acknowledge that there are many possible architectures for the context networks. For example, our time and location context networks, in particular, could easily be expanded, both in number of channels and layers. It would be better to control the capacity of the network depending on the information that the context contains.
 
 \section*{Acknowledgement}
 We gratefully acknowledge the support of NSF CAREER award IIS-1553116 and ARPA-E Award DE-AR0000594. The views and opinions of authors expressed herein do not necessarily state or reflect those of the United States Government or any agency thereof.

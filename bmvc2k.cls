@@ -490,7 +490,7 @@
     \@author
   \end{raggedright}%^
   %\vskip\baselineskip
-  \vskip 0.5em
+  \vskip 1.0em
   \hrule
   \vskip\baselineskip
   \def\BMVA@blfootnote{\xdef\@thefnmark{}\@footnotetext}%^
