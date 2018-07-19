@@ -261,8 +261,8 @@ by the Earth's radius. Other than a different input and independent network weig
 context network is identical to the temporal context network. 
 %
 For the image context network, we use the {\em InceptionV2}
-architecture~\cite{szegedy2016rethinking}, up to the last global
-average pooling layer, to extract features. We flatten the output
+architecture~\cite{szegedy2016rethinking}, up to the global
+pooling layer, to extract features. We flatten the output
 feature map and append the same structure as the other context
 networks.
 
@@ -453,10 +453,10 @@ features that are more correlated to the transient attributes ($\bar{\rho} = 0.4
   \includegraphics[width=.47\columnwidth]{pretrain/mse_intra}
   
   \caption{Comparing mid-level features for transient attribute
-  estimation. (left) Initializing from the weights of our proposed
+  estimation. (left) Features extracted from the weights of our proposed
   approach versus a network trained for image classification and a
-  random baseline. (right) Initializing from our method, trained on
-  different datasets.}
+  randomly initialized baseline. (right) Features extracted from our method,
+  trained on different datasets.}
   
   \label{fig:pretrain}
 \end{figure}
